@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Dor Crônica - Gerenciamento</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet" />
+
+    <script src="https://kit.fontawesome.com/d2c0d94adb.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker.min.js"></script>
+
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+    <script src="https://unpkg.com/imask"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker.min.css">
+
+</head>
+
+<body id="gerenciamento">
+
+    <header class="header">
+        <div class="header-container">
+            <h1 class="header-h1">
+                <a href="../index.html">Controle de Dor Crônica</a>
+            </h1>
+            <nav class="header-nav">
+                <ul>
+                    <li>
+                        <a href="graficos.html"><i class="fa-solid fa-chart-line"></i> Gráficos</a>
+                    </li>
+                    <li>
+                        <a href="historico.html"><i class="fa-solid fa-table-list"></i> Histórico</a>
+                    </li>
+                    <li>
+                        <a href="gerenciamento.html" class="active"><i class="fa-solid fa-gear"></i> Gerenciamento</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+
+        <section class="data-section records-section span-2">
+
+            <div class="tabs-section">
+
+                <nav class="tabs-nav">
+                    <ul id="recordsTabs"></ul>
+                </nav>
+
+                <div class="table-container">
+                    <h2>Registros - <span id="recordTabLabel">Dor</span></h2>
+                    <table id="recordsDataTableByType" class="data-table"></table>
+                </div>
+
+            </div>
+
+            <dialog id="recordModal" class="form-section">
+
+                <h2>Editar Registro</h2>
+
+                <form id="eventForm" onsubmit="editRecord(event)">
+
+                    <input type="hidden" name="recordId" id="recordId">
+
+                    <div class="form-section-form-group">
+                        <label for="recordValue">Valor (0-10):</label>
+                        <input type="number" name="recordValue" id="recordValue" min="0" max="10" placeholder="0-10" step="0.1" required>
+                    </div>
+
+                    <div class="form-section-form-group">
+                        <label for="recordDate">Data:</label>
+                        <input type="text" name="recordDate" id="recordDate" class="span-2" placeholder="Descrição do Evento" required>
+                    </div>
+                    
+                    <div class="form-section-form-group">
+                        <label for="recordTime">Hora:</label>
+                        <input type="text" name="recordTime" id="recordTime" class="span-2" placeholder="Descrição do Evento" required>
+                    </div>
+
+                    <div class="modal-buttons">
+                        <button type="button" class="btn cancel-btn" data-close-modal>Cancelar</span>
+                        <button type="submit" class="btn submit-btn">Adicionar</button>
+                    </div>
+
+                </form>
+
+            </dialog>
+
+        </section>
+
+        <section id="recordTypeDataSection" class="data-section records-types-section" data-sorting="false">
+
+            <h2 class="with-button">
+                Tipos de Registros
+                <button onclick="activateRecordTypeSorting()"><i class="fa fa-solid fa-bars"></i> Ordenar</button>
+            </h2>
+
+            <div class="table-container">
+                <table id="recordsTypesDataTable" class="data-table"></table>
+            </div>
+
+            <div class="sorting-buttons">
+                <button class="btn cancel-btn" onclick="desactivateRecordTypeSorting()">Cancelar</button>
+                <button class="btn submit-btn" onclick="saveRecordTypeSorting()">Salvar</button>
+            </div>
+
+            <dialog id="recordTypeModal" class="form-section">
+
+                <h2>Editar Tipo de Registro</h2>
+
+                <form id="recordTypeForm" onsubmit="editRecordType(event)">
+
+                    <div class="form-section-form-group">
+                        <label for="newRecordTypeName">Tipo de Registro:</label>
+                        <input type="hidden" name="recordTypeId" id="recordTypeId" required>
+                        <input type="text" name="recordTypeName" id="recordTypeName" class="span-2" placeholder="Tipo de Registro" required>
+                    </div>
+
+                    <div class="modal-buttons">
+                        <button type="button" class="btn cancel-btn" data-close-modal>Cancelar</span>
+                        <button type="submit" class="btn submit-btn">Adicionar</button>
+                    </div>
+
+                </form>
+
+            </dialog>
+
+        </section>
+
+        <section class="data-section events-section">
+
+            <h2>Eventos</h2>
+
+            <div class="table-container">
+                <table id="eventsDataTable" class="data-table"></table>
+            </div>
+
+            <dialog id="eventModal" class="form-section">
+
+                <h2>Editar Evento</h2>
+
+                <form id="eventForm" onsubmit="editEvent(event)">
+
+                    <input type="hidden" name="eventId" id="eventId">
+
+                    <div class="form-section-form-group">
+                        <label for="eventDescription">Descrição:</label>
+                        <input type="text" name="eventDescription" id="eventDescription" class="span-2" placeholder="Descrição do Evento" required>
+                    </div>
+
+                    <div class="form-section-form-group">
+                        <label for="eventDate">Data:</label>
+                        <input type="text" name="eventDate" id="eventDate" class="span-2" placeholder="Descrição do Evento" required>
+                    </div>
+                    
+                    <div class="form-section-form-group">
+                        <label for="eventTime">Hora:</label>
+                        <input type="text" name="eventTime" id="eventTime" class="span-2" placeholder="Descrição do Evento" required>
+                    </div>
+
+                    <div class="modal-buttons">
+                        <button type="button" class="btn cancel-btn" data-close-modal>Cancelar</span>
+                        <button type="submit" class="btn submit-btn">Adicionar</button>
+                    </div>
+
+                </form>
+
+            </dialog>
+
+        </section>
+
+        <script src="../static/js/datatable.js"></script>
+        <script src="../static/js/formHelper.js"></script>
+        <script src="../static/js/gerenciamento.js"></script>
+
+    </main>
+
+</body>
+
+</html>
