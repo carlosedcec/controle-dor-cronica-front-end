@@ -28,7 +28,7 @@ function handleResponseError(response, message) {
 function loadRecordTypes() {
 
     fetch(
-        window.location.origin + '/get-record-types'
+        "http://127.0.0.1:5000/get-record-types"
     ).then(response => {
         return response.json().then(json => ({ status: response.status, body: json }));
     }).then(response => {
@@ -48,7 +48,7 @@ function loadRecordTypes() {
 function loadRecordsData() {
 
     fetch(
-        window.location.origin + '/get-records'
+        "http://127.0.0.1:5000/get-records"
     ).then(response => {
         return response.json().then(json => ({ status: response.status, body: json }));
     }).then(response => {
@@ -67,7 +67,7 @@ function loadRecordsData() {
 function loadEventsData() {
 
     fetch(
-        window.location.origin + '/get-events'
+        "http://127.0.0.1:5000/get-events"
     ).then(response => {
         return response.json().then(json => ({ status: response.status, body: json }));
     }).then(response => {
