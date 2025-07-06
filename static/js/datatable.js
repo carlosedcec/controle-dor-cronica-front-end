@@ -98,6 +98,16 @@ class RecordsDataTable {
         return sum / columnsToAverage.length;
     }
 
+    hasAtLeastOneNumber(row, visibleColumns) {
+        // Check if the row has at least one numeric value (including 0)
+        return visibleColumns.some(column => {
+            const value = row[column.id];
+            // Check if the value is a number (including 0) or can be parsed as a number
+            return typeof value === 'number' || 
+                   (typeof value === 'string' && !isNaN(parseFloat(value)) && value.trim() !== '');
+        });
+    }
+
     render() {
         // Get the columns that should be visible in the current page
         const visibleColumns = this.getVisibleColumns();
@@ -169,11 +179,16 @@ class RecordsDataTable {
             );
 
             this.filteredData.forEach((row, index) => {
+                // Skip rows that don't have at least one number
+                if (!this.hasAtLeastOneNumber(row, visibleColumns)) {
+                    return; // Skip this row
+                }
+
                 const tr = document.createElement('tr');
                 
                 visibleColumns.forEach((column, colIndex) => {
                     const td = document.createElement('td');
-                    td.textContent = row[column.id] || '';
+                    td.textContent = !row[column.id] && row[column.id] !== 0 ? '-' : row[column.id];
                     
                     // Add classes for highest and lowest values in the last row
                     if (index === this.filteredData.length - 1) {
