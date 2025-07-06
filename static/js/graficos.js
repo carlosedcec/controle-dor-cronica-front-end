@@ -254,17 +254,21 @@ function loadChart2(update = false) {
         let series = [];
 
         // Adiciona os valores dos registros
-        let registros = ["dor", "fadiga", "sono"];
+        let registros = [];
 
-        registros.forEach(function(registro) {
-            let serie = { "name": registro, data: [] };
-            recordsData.forEach(data => {
-                let item = data.find(item => item.record_type_name === registro);
-                item = item && item.average_value ? item.average_value : 0;
-                serie.data.push(item);
-            });
-            series.push(serie);
-        });
+        if ($root.recordTypes[0] && $root.recordTypes[0].name)
+            registros.push($root.recordTypes[0].name);
+        if ($root.recordTypes[1] && $root.recordTypes[1].name)
+            registros.push($root.recordTypes[1].name);
+        if ($root.recordTypes[2] && $root.recordTypes[2].name)
+            registros.push($root.recordTypes[2].name);
+
+        if ($root.recordTypes.filter((item) => item.name == "dor").length > 0)
+            registros[0] = "dor";
+        if ($root.recordTypes.filter((item) => item.name == "fadiga").length > 0)
+            registros[1] = "fadiga";
+        if ($root.recordTypes.filter((item) => item.name == "sono").length > 0)
+            registros[2] = "sono";
 
         // Filtra os eventos de acordo com a página/data e adiciona eles na variável annotations
         let eventsData = $root.events.filter(item => item.date >= recordsDates[0] && item.date <= recordsDates[recordsDates.length-1]);
