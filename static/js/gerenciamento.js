@@ -377,6 +377,9 @@ function editEvent(event) {
 // Função que ativa e configura o recurso de arrastar e soltar dos tipos de registro
 function activateRecordTypeSorting() {
 
+    if (!$root.recordsTypes || $root.recordsTypes.length === 0)
+        return;
+  
     document.getElementById("recordTypeDataSection").setAttribute("data-sorting", "true");
 
     var el = document.querySelector('#recordsTypesDataTable tbody');
