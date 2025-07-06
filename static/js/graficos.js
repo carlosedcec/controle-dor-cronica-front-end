@@ -28,7 +28,7 @@ function handleResponseError(response, message) {
 function loadRecordTypes() {
 
     fetch(
-        "http://127.0.0.1:5000/get-record-types"
+        window.location.origin + '/get-record-types'
     ).then(response => {
         return response.json().then(json => ({ status: response.status, body: json }));
     }).then(response => {
@@ -48,7 +48,7 @@ function loadRecordTypes() {
 function loadRecordsData() {
 
     fetch(
-        "http://127.0.0.1:5000/get-records"
+        window.location.origin + '/get-records'
     ).then(response => {
         return response.json().then(json => ({ status: response.status, body: json }));
     }).then(response => {
@@ -67,7 +67,7 @@ function loadRecordsData() {
 function loadEventsData() {
 
     fetch(
-        "http://127.0.0.1:5000/get-events"
+        window.location.origin + '/get-events'
     ).then(response => {
         return response.json().then(json => ({ status: response.status, body: json }));
     }).then(response => {
@@ -269,6 +269,16 @@ function loadChart2(update = false) {
             registros[1] = "fadiga";
         if ($root.recordTypes.filter((item) => item.name == "sono").length > 0)
             registros[2] = "sono";
+
+        registros.forEach(function(registro) {
+            let serie = { "name": registro, data: [] };
+            recordsData.forEach(data => {
+                let item = data.find(item => item.record_type_name === registro);
+                item = item && item.average_value ? item.average_value : 0;
+                serie.data.push(item);
+            });
+            series.push(serie);
+        });
 
         // Filtra os eventos de acordo com a página/data e adiciona eles na variável annotations
         let eventsData = $root.events.filter(item => item.date >= recordsDates[0] && item.date <= recordsDates[recordsDates.length-1]);
