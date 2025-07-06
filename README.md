@@ -14,7 +14,7 @@ Sistema para controle de sintomas de pessoas que sofrem de dor crônica. Atravé
 ## 🛠️ Instalação
 
 1. Clone o repositório:<br>
-git clone https://github.com/carlosedcec/controle-dor-cronica-front-end
+`git clone https://github.com/carlosedcec/controle-dor-cronica-front-end`
 
 2. Rode a [aplicação python](https://github.com/carlosedcec/controle-dor-cronica-back-end) para ter acesso ao servidor
 
