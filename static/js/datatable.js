@@ -79,7 +79,7 @@ class RecordsDataTable {
 
     calculateRowSum(row, visibleColumns) {
         // Get the columns to sum, excluding the average column
-        const columnsToSum = visibleColumns.slice(this.options.columnsPerPage*-1);
+        const columnsToSum = visibleColumns.slice(1);
         // Calculate sum of numeric values
         return columnsToSum.reduce((sum, column) => {
             const value = parseFloat(row[column.id]);
@@ -89,7 +89,7 @@ class RecordsDataTable {
 
     calculateRowAverage(row, visibleColumns) {
         // Get the columns to calculate average, excluding the average column
-        const columnsToAverage = visibleColumns.slice(this.options.columnsPerPage*-1);
+        const columnsToAverage = visibleColumns.slice(1);
         // Calculate average of numeric values
         const sum = columnsToAverage.reduce((sum, column) => {
             const value = parseFloat(row[column.id]);
